@@ -13,6 +13,9 @@ namespace JsonConfig
 
         #region Public Members
 
+        /// <summary>
+        /// Gets the default config dynamic object, which should be a file named app.json.config located at the root of your project
+        /// </summary>
         public static dynamic DefaultConfig
         {
             get
@@ -25,6 +28,11 @@ namespace JsonConfig
             }
         }
 
+        /// <summary>
+        /// Get a config dynamic object from the json
+        /// </summary>
+        /// <param name="json">Json string</param>
+        /// <returns>The dynamic config object</returns>
         public static dynamic GetConfig(string json)
         {
             var serializer = new JavaScriptSerializer();
@@ -32,6 +40,11 @@ namespace JsonConfig
             return serializer.Deserialize(json, typeof(object));
         }
 
+        /// <summary>
+        /// Load a config from a specified file
+        /// </summary>
+        /// <param name="filePath">Config file path</param>
+        /// <returns>The dynamic config object</returns>
         public static dynamic LoadConfig(string filePath)
         {
             return GetConfig(ConfigFileLoader.LoadConfigFile(filePath));
