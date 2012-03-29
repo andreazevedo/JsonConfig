@@ -13,7 +13,7 @@ using System.Web.Script.Serialization;
 
 namespace JsonConfig
 {
-    public class DynamicJsonConverter : JavaScriptConverter
+    internal class DynamicJsonConverter : JavaScriptConverter
     {
         public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
         {

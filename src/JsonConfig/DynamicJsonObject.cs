@@ -15,7 +15,7 @@ using System.Text;
 
 namespace JsonConfig
 {
-    public class DynamicJsonObject : DynamicObject
+    internal class DynamicJsonObject : DynamicObject
     {
         #region Fields
 

@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigFileLoader.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="DynamicJsonObject.cs" />
+    <Compile Include="IConfigFileLoader.cs" />
+    <Compile Include="JsonConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
