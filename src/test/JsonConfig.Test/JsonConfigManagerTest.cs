@@ -18,14 +18,9 @@ namespace JsonConfig.Test
         {
             var config = JsonConfigManager.GetConfig(SimpleJson);
 
-            var name = config.name;
-            Assert.AreEqual("Andre Azevedo", name);
-
-            var age = config.age;
-            Assert.AreEqual(26, age);
-
-            var sex = config.sex;
-            Assert.IsNull(sex);
+            Assert.AreEqual("Andre Azevedo", config.name);
+            Assert.AreEqual(26, config.age);
+            Assert.IsNull(config.sex);
         }
 
         /// <summary>
@@ -34,14 +29,11 @@ namespace JsonConfig.Test
         [Test]
         public void DefaultConfig_ShouldReturnCorrectObject()
         {
-            var name = JsonConfigManager.DefaultConfig.name;
-            Assert.AreEqual("Andre Azevedo", name);
+            var config = JsonConfigManager.DefaultConfig;
 
-            var age = JsonConfigManager.DefaultConfig.age;
-            Assert.AreEqual(26, age);
-
-            var sex = JsonConfigManager.DefaultConfig.sex;
-            Assert.AreEqual("M", sex);
+            Assert.AreEqual("Andre Azevedo", config.name);
+            Assert.AreEqual(26, config.age);
+            Assert.AreEqual("M", config.sex);
         }
 
         /// <summary>
@@ -51,15 +43,12 @@ namespace JsonConfig.Test
         public void LoadConfig_ShouldReturnCorrectObject()
         {
             var directory = Path.GetDirectoryName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
-            var filePath = Path.Combine(directory, "anotherConfig.js");
+            var filePath = Path.Combine(directory, "anotherConfig.json");
 
             var config = JsonConfigManager.LoadConfig(filePath);
 
-            var name = config.name;
-            Assert.AreEqual("another config", name);
-
-            var age = config.age;
-            Assert.IsNull(age);
+            Assert.AreEqual("another config", config.name);
+            Assert.IsNull(config.age);
         }
     }
 }
