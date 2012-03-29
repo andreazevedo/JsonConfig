@@ -38,4 +38,4 @@ You can use any config file name you want. Checkout the unit tests to find out h
 
 ## Licensing
 
-Release under the MIT license.
+Released under the MIT license.
