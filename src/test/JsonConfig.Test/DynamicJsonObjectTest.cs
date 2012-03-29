@@ -30,7 +30,6 @@ namespace JsonConfig.Test
         [Test]
         public void TryGetMember_UsingDynamicTyping_OnSimpleProperty_ShouldReturnCorrectResult()
         {
-
             dynamic jsonObj = GetJsonObject(Json);
 
             string name = jsonObj.name;
