@@ -39,7 +39,6 @@ namespace JsonConfig.Test
         [Test]
         public void TryGetMember_UsingDynamicTyping_OnArrayLength_ShouldReturnCorrectResult()
         {
-
             dynamic jsonObj = GetJsonObject(Json);
 
             int numOfServers = jsonObj.servers.Count;
@@ -49,11 +48,21 @@ namespace JsonConfig.Test
         [Test]
         public void TryGetMember_UsingDynamicTyping_OnArrayItem_ShouldReturnCorrectResult()
         {
-
             dynamic jsonObj = GetJsonObject(Json);
 
             string firstServerHost = jsonObj.servers[0].host;
             Assert.AreEqual("192.168.0.1", firstServerHost);
+        }
+
+        [Test]
+        public void ToString_ShouldReturnCorrectResult()
+        {
+            dynamic jsonObj = GetJsonObject(Json);
+
+            const string expected = @"{name:""Nice name"",servers:[{host:""192.168.0.1"",port:80},{host:""192.168.0.2"",port:8080}]}";
+            var result = jsonObj.ToString();
+
+            Assert.AreEqual(expected, result);
         }
 
         #endregion
