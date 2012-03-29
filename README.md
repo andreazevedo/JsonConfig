@@ -5,10 +5,10 @@ JsonConfig is a simple configuration framework based on json and the dynamic typ
 
 ## Getting Started
 
-1. In your project, add reference to JsonConfig.dll
+1) In your project, add reference to JsonConfig.dll
 
 
-2. Add a file to your project named "app.json.config" with your configuration in a json format. Example:
+2) Add a file to your project named "app.json.config" with your configuration in a json format. Example:
 
 ```javascript
 {
@@ -19,10 +19,10 @@ JsonConfig is a simple configuration framework based on json and the dynamic typ
 ```
 
 
-3. If your project is not a web project, you need to set the file to "Copy to the output directory if changed".
+3) If your project is not a web project, you need to set the file to "Copy to the output directory if changed".
 
 
-4. Just use the dynamic config object in your code as follows:
+4) Just use the dynamic config object in your code as follows:
 
 ```csharp
 Console.WriteLine("name: {0}", JsonConfigManager.DefaultConfig.name);
