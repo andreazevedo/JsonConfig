@@ -1,0 +1,34 @@
+# General
+[Oo]bj
+[Bb]in
+TestResults
+*.user
+*.suo
+*.cache
+*.Cache
+*.ncb
+*.log 
+*.DS_Store
+*.vspscc
+*.vssscc
+thumbs.db 
+Thumbs.db 
+_ReSharper.*
+*.resharper
+Ankh.NoLoad
+Local.testsettings
+*.sdf
+
+# Mono
+*.pidb
+*.resources
+*.userprefs
+
+# Mono Unit tests
+test-results
+
+#DotCover
+*.dotcover
+
+# keep
+!.gitkeep
