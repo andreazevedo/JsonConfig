@@ -40,12 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharExtensions.cs" />
     <Compile Include="ConfigFileLoader.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="DynamicJsonObject.cs" />
+    <Compile Include="TypeInfo.cs" />
     <Compile Include="IConfigFileLoader.cs" />
     <Compile Include="JsonConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="ReflectionHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

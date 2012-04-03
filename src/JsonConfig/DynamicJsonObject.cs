@@ -38,30 +38,22 @@ namespace JsonConfig
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if (!_dictionary.TryGetValue(binder.Name, out result))
-            {
-                // return null to avoid exception.  caller can check for null this way...
-                result = null;
-                return true;
-            }
-
-            var dictionary = result as IDictionary<string, object>;
-            if (dictionary != null)
-            {
-                result = new DynamicJsonObject(dictionary);
-                return true;
-            }
-
-            var arrayList = result as ArrayList;
-            if (arrayList != null && arrayList.Count > 0)
-            {
-                if (arrayList[0] is IDictionary<string, object>)
-                    result = new List<object>(arrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x)));
-                else
-                    result = new List<object>(arrayList.Cast<object>());
-            }
-
+            result = GetMember(_dictionary, binder.Name);
             return true;
+        }
+
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            try
+            {
+                result = Convert(_dictionary, binder.Type);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = null;
+                return false;
+            }
         }
 
         public override string ToString()
@@ -71,7 +63,11 @@ namespace JsonConfig
             return sb.ToString();
         }
 
-        private void ToString(StringBuilder sb)
+        #endregion
+
+        #region Internal Methods
+
+        internal void ToString(StringBuilder sb)
         {
             sb.Append("{");
 
@@ -89,6 +85,7 @@ namespace JsonConfig
                 }
                 else if (value is IDictionary<string, object>)
                 {
+                    sb.Append(name + ":");
                     new DynamicJsonObject((IDictionary<string, object>)value).ToString(sb);
                 }
                 else if (value is ArrayList)
@@ -116,6 +113,98 @@ namespace JsonConfig
                 }
             }
             sb.Append("}");
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        public static object Convert(IDictionary<string, object> dictionary, Type type)
+        {
+            var obj = ReflectionHelper.Instantiate(type);
+            TypeInfo typeInfo = ReflectionHelper.GetTypeInfo(type);
+
+            foreach (var key in dictionary.Keys)
+            {
+                var value = GetMember(dictionary, key);
+                if (value != null)
+                {
+                    if (typeInfo.ExistsFieldOrProperty(key))
+                    {
+                        var valueAsDynamicJsonObject = value as DynamicJsonObject;
+                        if (valueAsDynamicJsonObject != null)
+                        {
+                            var convertedValue = Convert(valueAsDynamicJsonObject._dictionary, typeInfo.GetReturnType(key));
+                            typeInfo.SetValue(key, obj, convertedValue);
+                        }
+                        else
+                        {
+                            var valueAsListOfObjects = value as List<object>;
+                            if (valueAsListOfObjects != null)
+                            {
+                                var listItemType = typeInfo.GetReturnType(key).GetGenericArguments()[0];
+                                var list = ReflectionHelper.InstantiateGenericList(listItemType);
+
+                                FillList(listItemType, list, valueAsListOfObjects);
+
+                                typeInfo.SetValue(key, obj, list);
+                            }
+                            else
+                            {
+                                typeInfo.SetValue(key, obj, value);
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        private static void FillList(Type listItemType, IList list, List<object> valueAsListOfObjects)
+        {
+            if (valueAsListOfObjects[0] is DynamicJsonObject)
+            {
+                foreach (var listItem in valueAsListOfObjects)
+                {
+                    list.Add(Convert(((DynamicJsonObject) listItem)._dictionary, listItemType));
+                }
+            }
+            else
+            {
+                foreach (var listItem in valueAsListOfObjects)
+                {
+                    list.Add(listItem);
+                }
+            }
+        }
+
+        private static object GetMember(IDictionary<string, object> dictionary, string name)
+        {
+            object result = null;
+            if (!dictionary.TryGetValue(name, out result))
+            {
+                // return null to avoid exception.  caller can check for null this way...
+                return null;
+            }
+
+            var resultAsDictionary = result as IDictionary<string, object>;
+            if (resultAsDictionary != null)
+            {
+                return new DynamicJsonObject(resultAsDictionary);
+            }
+
+            var resultAsArrayList = result as ArrayList;
+            if (resultAsArrayList != null && resultAsArrayList.Count > 0)
+            {
+                if (resultAsArrayList[0] is IDictionary<string, object>)
+                    result = new List<object>(resultAsArrayList.Cast<IDictionary<string, object>>().Select(x => new DynamicJsonObject(x)));
+                else
+                    result = new List<object>(resultAsArrayList.Cast<object>());
+            }
+
+            return result;
         }
 
         #endregion
