@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharExtensions.cs" />
     <Compile Include="ConfigFileLoader.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="DynamicJsonObject.cs" />
