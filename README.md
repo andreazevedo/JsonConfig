@@ -39,6 +39,3 @@ You can use any config file name you want. Checkout the unit tests to find out h
 ## Licensing
 
 Released under the MIT license.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/andreazevedo/jsonconfig/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
